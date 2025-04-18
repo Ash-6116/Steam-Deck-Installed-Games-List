@@ -1,6 +1,8 @@
 #!/bin/bash
 
 main_dir=/run/media/deck
+epic=epic # can change this based on your naming convention, ie. epic=Epic Games
+gog=gog # can change this based on your naming convention, ie. gog = GOG Launcher
 
 function warn_user () {
 	echo "An $1 was provided, please rerun the script passing in one of the directory names below:"
@@ -19,12 +21,12 @@ function fetch_storefront_data () {
 	fi
 	if [ -d $1/epic ]; then # Epic games live in epic/ as folders
 		echo "Epic Games:"
-		list_games $1/epic
+		list_games $1/$epic
 		echo ""
 	fi
 	if [ -d $1/gog ]; then # GOG games live in gog/ as folders
 		echo "GOG Games:"
-		list_games $1/gog
+		list_games $1/$gog
 		echo ""
 	fi
 }
