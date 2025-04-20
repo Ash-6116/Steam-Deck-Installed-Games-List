@@ -29,6 +29,7 @@ function fetch_storefront_data () {
 		list_games $1/$gog
 		echo ""
 	fi
+ 	df -h $1 # Show the amount of free space left on the filesystem where the given directory resides
 }
 
 # Need to check if $1 is populated
