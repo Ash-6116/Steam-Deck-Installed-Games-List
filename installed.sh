@@ -1,8 +1,13 @@
 #!/bin/bash
 
 main_dir=/run/media/deck
-epic=epic # can change this based on your naming convention, ie. epic=Epic Games
-gog=gog # can change this based on your naming convention, ie. gog = GOG Launcher
+epic=epic # can change this based on your naming convention, ie. epic="Epic Games"
+gog=gog # can change this based on your naming convention, ie. gog = "GOG Launcher"
+
+function attach_metadata () {
+	df -h $1 # Show the amount of free space left on the filesystem where the given directory resides
+ 	exec date # display the date and time at the end of the file listing
+}
 
 function warn_user () {
 	echo "An $1 was provided, please rerun the script passing in one of the directory names below:"
@@ -29,7 +34,6 @@ function fetch_storefront_data () {
 		list_games $1/$gog
 		echo ""
 	fi
- 	df -h $1 # Show the amount of free space left on the filesystem where the given directory resides
 }
 
 # Need to check if $1 is populated
@@ -38,6 +42,7 @@ if [ -z "$1" ]; then
 elif [ $1 == "internal" ]; then
 	echo "Internal Storage:"
 	list_games "/home/deck/.local/share/Steam/steamapps/common"
+ 	attach_metadata "/home/deck"
 else
 
 	if [ -d "$main_dir/$1" ]; then # $1 directory exists, we can continue
@@ -45,6 +50,7 @@ else
 		# Steam games live in steamapps, GOG and Epic tend to live in gog and epic respectively, but not always, will need to ensure this in future
 		echo "[$1]"
 		fetch_storefront_data $main_dir
+  		attach_metadata $main_dir
 	else # $1 directory does not exist, inform user and stop
 		warn_user "incorrect directory name"
 	fi
